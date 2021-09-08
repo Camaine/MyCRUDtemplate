@@ -1,3 +1,4 @@
+<%@ taglib prefix = "c" uri = "http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -17,14 +18,34 @@
         <span class="navbar-toggler-icon"></span>
     </button>
     <div class="collapse navbar-collapse" id="collapsibleNavbar">
-        <ul class="navbar-nav">
-            <li class="nav-item">
-                <a class="nav-link" href="/green/user/loginForm">Login</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="/green/user/joinForm">Register</a>
-            </li>
-        </ul>
+        <c:choose>
+            <c:when test = '${empty sessionScope.principal}'>
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a class="nav-link" href="/green/user/loginForm">Login</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/green/user/joinForm">Register</a>
+                    </li>
+                </ul>
+            </c:when>
+            <c:otherwise>
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a class="nav-link" href="/green/board/writeForm">Post</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/green/user/userForm">MyInfo</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/green/user/logout">Logout</a>
+                    </li>
+                </ul>
+            </c:otherwise>
+        </c:choose>
+
+
+
     </div>
 </nav>
 <br/>
