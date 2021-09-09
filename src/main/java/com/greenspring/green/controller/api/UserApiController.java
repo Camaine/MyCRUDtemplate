@@ -18,10 +18,7 @@ public class UserApiController {
 
 	@Autowired
 	private UserService userService;
-	
-	@Autowired
-	private HttpSession session;
-	
+
 	@PostMapping("/api/user")
 	public ResponseDTO<Integer> save(@RequestBody User user) {
 		System.out.println("Call UserApiController : save");
@@ -31,8 +28,9 @@ public class UserApiController {
 		return new ResponseDTO<Integer>(HttpStatus.OK.value(),1); // change Java Object to JSON
 	}
 
+	/*
 	@PostMapping("/api/user/login")
-	public ResponseDTO<Integer> login(@RequestBody User user) {
+	public ResponseDTO<Integer> login(@RequestBody User user, HttpSession session) {
 		System.out.println("Call UserApiController : login");
 		User principal = userService.userLogin(user);
 
@@ -40,6 +38,6 @@ public class UserApiController {
 			session.setAttribute("principal", principal);
 		}
 		return new ResponseDTO<Integer>(HttpStatus.OK.value(),1); // change Java Object to JSON
-	}
+	}*/
 }
  

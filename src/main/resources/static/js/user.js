@@ -26,7 +26,7 @@ let index = {
 		$.ajax({
 			// do register request(aspect 100s)
 			type:"POST",
-			url:"/green/api/user",
+			url:"/api/user",
 			data:JSON.stringify(data), // http body data
 			contentType:"application/json; charset=utf-8",//define body tpye(MIME)
 			
@@ -35,7 +35,7 @@ let index = {
 		}).done(function(res){
 			alert("Register Complete");
 			//console.log(res);
-			location.href = "/green";
+			location.href = "/";
 		}).fail(function(err){
 			alert(JSON.stringify(err));
 		}); //ajax를 이용해서 3개의 데이터를 json으로 변경하여 insert 요청 
@@ -56,7 +56,7 @@ let index = {
 		$.ajax({
 			// do register request(aspect 100s)
 			type:"POST",
-			url:"/green/api/user/login",
+			url:"/api/user/login",
 			data:JSON.stringify(data), // http body data
 			contentType:"application/json; charset=utf-8",//define body tpye(MIME)
 
@@ -65,7 +65,7 @@ let index = {
 		}).done(function(res){
 			alert("Login Successful");
 			//console.log(res);
-			location.href = "/green";
+			location.href = "/";
 		}).fail(function(err){
 			alert(JSON.stringify(err));
 		}); //ajax를 이용해서 3개의 데이터를 json으로 변경하여 insert 요청

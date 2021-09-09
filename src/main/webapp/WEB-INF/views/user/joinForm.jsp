@@ -22,7 +22,7 @@
 	<button id="btn-save" class="btn btn-primary">Register</button>
 </div>
 
-<script src="/green/js/user.js"></script>
+<script src="/js/user.js"></script>
 
 <%@ include file="../layout/footer.jsp"%>
 
