@@ -13,10 +13,10 @@ public class BoardController {
 
     @GetMapping("/")
     //@RequestMapping(value = "/", method = RequestMethod.GET)
-    public String index(@AuthenticationPrincipal PrincipalDetails principal){
+    public String index(/*@AuthenticationPrincipal PrincipalDetails principal*/){
         System.out.println("index");
         // /WEB-INF/views/index.jsp
-        System.out.println("login : " + principal.getUsername());
+        //System.out.println("login : " + principal.getUsername());
         return "index";
     }
 
