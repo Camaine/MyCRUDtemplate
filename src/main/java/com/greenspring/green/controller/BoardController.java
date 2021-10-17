@@ -11,12 +11,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 @Controller
 public class BoardController {
 
-    @GetMapping("/")
-    //@RequestMapping(value = "/", method = RequestMethod.GET)
-    public String index(/*@AuthenticationPrincipal PrincipalDetails principal*/){
+    @GetMapping({"/",""})
+    public String index(){
         System.out.println("index");
-        // /WEB-INF/views/index.jsp
-        //System.out.println("login : " + principal.getUsername());
         return "index";
     }
 
