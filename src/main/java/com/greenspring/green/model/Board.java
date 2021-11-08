@@ -17,7 +17,6 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-//ORM -> Java(다른언어) Object -> 테이블로 매핑해주는 기술
 @Entity
 public class Board {
     @Id
@@ -30,7 +29,6 @@ public class Board {
     @Lob // 대용량 데이
     private String content;// Summer note Library<html>섞어서 디자인이 됨.터
 
-    @ColumnDefault("0")
     private int count;//조회수
 
     @ManyToOne(fetch = FetchType.EAGER) // Many = Board, User = One

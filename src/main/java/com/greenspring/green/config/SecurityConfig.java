@@ -34,7 +34,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http.csrf().disable()//csrf Token disable why?
                 .authorizeRequests()
-                .antMatchers("/","/auth/**","/js/**","/css/**","/image/**")
+                .antMatchers("/","/auth/**","/js/**","/css/**","/image/**","/dummy/**")
                 .permitAll()
                 .anyRequest()
                 .authenticated()

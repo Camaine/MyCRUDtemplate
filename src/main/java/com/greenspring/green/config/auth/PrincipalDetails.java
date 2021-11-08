@@ -1,6 +1,7 @@
 package com.greenspring.green.config.auth;
 
 import com.greenspring.green.model.User;
+import lombok.Getter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -11,6 +12,7 @@ import java.util.Collection;
 
 //Spring Security gets login requests and proceed login, when complete return UserDetails type objects
 //and save unique session storage
+@Getter
 public class PrincipalDetails implements UserDetails {
 
     private User user; // Composistion
