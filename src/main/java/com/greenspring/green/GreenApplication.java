@@ -1,5 +1,8 @@
 package com.greenspring.green;
 
+import com.greenspring.green.model.TwitterToken;
+import com.greenspring.green.service.TwitterService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
@@ -18,6 +21,8 @@ public class GreenApplication extends SpringBootServletInitializer{
 	protected SpringApplicationBuilder configure(SpringApplicationBuilder builder) {
 		return builder.sources(GreenApplication.class);
 	}
+
+
 	
 	public static void main(String[] args) throws Exception{
 		SpringApplication.run(GreenApplication.class, args);
