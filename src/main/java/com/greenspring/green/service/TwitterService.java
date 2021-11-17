@@ -28,9 +28,6 @@ public class TwitterService {
         }catch (Exception e){
 
         }
-
-
-
         return;
     }
 

@@ -9,6 +9,10 @@ server:
 
 path:
 
+twitter:
+  key: TynCi8QMLZTYoYDSoa8rY4wuP
+  secret: IWi2VWzLARIumoG5gWyUjsLjyp2llVADaKafwo3iiuxOGhIlRj
+
 spring:
   mvc:
     view:

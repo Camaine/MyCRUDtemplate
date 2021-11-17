@@ -18,7 +18,6 @@ public class UserApiController {
 	@Autowired
 	private UserService userService;
 
-
 	@PostMapping("/auth/doJoin")
 	public ResponseDTO<Integer> save(@RequestBody User user) {
 		System.out.println("Call UserApiController : save");
