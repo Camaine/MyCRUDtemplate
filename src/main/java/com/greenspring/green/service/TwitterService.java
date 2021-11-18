@@ -1,8 +1,6 @@
 package com.greenspring.green.service;
 
-import com.greenspring.green.model.RoleType;
-import com.greenspring.green.model.TwitterToken;
-import com.greenspring.green.model.TwtUser;
+import com.greenspring.green.model.*;
 import com.greenspring.green.model.User;
 import com.greenspring.green.repo.TwtUserRepository;
 import org.hibernate.Session;
@@ -44,6 +42,19 @@ public class TwitterService {
     public void twtUserRegister(TwtUser twtUser){
         twtUser.setRole(RoleType.USER);
         twtUserRepository.save(twtUser);
+    }
+
+    @Transactional
+    public void twtUserUpdate(String uid, TwtUser requestUser){
+        TwtUser twtUser = twtUserRepository.findByUid(uid)
+                .orElseThrow(()->{
+                    return new IllegalArgumentException("Can't find user");
+                });
+        twtUser.setDisplayName(requestUser.getDisplayName());
+        twtUser.setScreenName(requestUser.getScreenName());
+        twtUser.setUpdateDate(requestUser.getUpdateDate());
+        System.out.println("update : " + uid);
+        //해당 함수 종료시 트랜젝션종료, 더티체킹이 이루어지면서 자동업데이트
     }
 
 
