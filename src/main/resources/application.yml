@@ -22,14 +22,16 @@ spring:
 
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://greenworld.dscloud.me:3306/blog
+    url: jdbc:mysql://greenworld.dscloud.me:3306/blog?useUnicode=true
     username: root
     password: P!ssw0rd
+    hikari:
+      connection-init-sql: "SET NAMES 'utf8mb4'"
 
   jpa:
     open-in-view: true
     hibernate:
-      ddl-auto: update
+      ddl-auto: create
       naming:
         physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
       use-new-id-generator-mappings: false

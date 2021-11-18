@@ -18,7 +18,7 @@ public class UserController {
 
 	@GetMapping("/auth/loginForm")
 	public String loginForm() {
-		twitterService.twitterLogin();
+		//twitterService.twitterLogin();
 		return "user/loginForm";
 	}
 
