@@ -26,6 +26,9 @@ public class CharacterBoard {
     private String ownerUid;
 
     @Column(nullable = false, length = 100)
+    private String ownerName;
+
+    @Column(nullable = false, length = 100)
     private String characterName;
 
     @Column(nullable = false, length = 100)

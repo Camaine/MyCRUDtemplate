@@ -1,11 +1,8 @@
 package com.greenspring.green.service;
 
-import com.greenspring.green.model.Board;
 import com.greenspring.green.model.CharacterBoard;
-import com.greenspring.green.model.TwtUser;
-import com.greenspring.green.model.User;
-import com.greenspring.green.repo.BoardRepository;
 import com.greenspring.green.repo.CharacterBoardRepository;
+import com.greenspring.green.repo.TwtUserRepository;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -18,14 +15,17 @@ import java.util.List;
 public class CharacterBoardService {
 
     private final CharacterBoardRepository characterBoardRepository;
+    private final TwtUserRepository twtUserRepository;
 
-    public CharacterBoardService(CharacterBoardRepository characterBoardRepository) {
+    public CharacterBoardService(CharacterBoardRepository characterBoardRepository, TwtUserRepository twtUserRepository) {
         this.characterBoardRepository = characterBoardRepository;
+        this.twtUserRepository = twtUserRepository;
     }
 
     @Transactional
     public void post(CharacterBoard characterBoard){
         characterBoard.setCount(0);
+        characterBoard.setOwnerName(twtUserRepository.findByUidEquals(characterBoard.getOwnerUid()).get(0).getDisplayName());
         characterBoardRepository.save(characterBoard);
     }
 
@@ -37,6 +37,22 @@ public class CharacterBoardService {
                 characterBoard.getPrimaryColor(),
                 characterBoard.getSecondaryColor()
         );
+    }
+
+    @Transactional
+    public void updateCharacter(int id, CharacterBoard requestCharacterBoard){
+        CharacterBoard characterBoard = characterBoardRepository.findById(id)
+                .orElseThrow(()->{
+                    return new IllegalArgumentException("글 찾기 실패 : 아이디를 찾을 수 없습니다.");
+                });
+        characterBoard.setCharacterName(requestCharacterBoard.getCharacterName());
+        characterBoard.setBio(requestCharacterBoard.getBio());
+        System.out.println("update : " + id );
+    }
+
+    @Transactional
+    public void deleteCharacter(int id){
+        characterBoardRepository.deleteById(id);
     }
 
     @Transactional(readOnly = true)

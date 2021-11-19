@@ -50,7 +50,7 @@ public class BoardApiController {
 		return new ResponseDTO<Integer>(HttpStatus.OK.value(),1); // change Java Object to JSON
 	}
 
-	@GetMapping("/api/getCharacterList")
+	@PostMapping("/api/getCharacterList")
 	public String getCharacterList(@RequestBody CharacterBoard characterBoard) {
 
 		List<CharacterBoard> searchValList = characterBoardService.characterList(characterBoard);
@@ -64,7 +64,7 @@ public class BoardApiController {
 			jsonObject.addProperty("id", cb.getId());
 			jsonObject.addProperty("characterName", cb.getCharacterName());
 			jsonObject.addProperty("creatorName", cb.getCreatorName());
-			jsonObject.addProperty("ownerUid", cb.getOwnerUid());
+			jsonObject.addProperty("ownerName", cb.getOwnerName());
 			jsonObject.addProperty("spices", cb.getSpices());
 			jsonObject.addProperty("primaryColor", cb.getPrimaryColor());
 			jsonObject.addProperty("secondaryColor", cb.getSecondaryColor());
@@ -77,6 +77,18 @@ public class BoardApiController {
 		obj.add("data", jsonArray);
 
 		return obj.toString();
+	}
+
+	@PutMapping("/api/updateCharacter/{id}")
+	public ResponseDTO<Integer> updateCharacter(@PathVariable int id, @RequestBody CharacterBoard characterBoard){
+		characterBoardService.updateCharacter(id,characterBoard);
+		return new ResponseDTO<Integer>(HttpStatus.OK.value(),1);
+	}
+
+	@DeleteMapping("/api/deleteCharacter/{id}")
+	public ResponseDTO<Integer> deleteCharacter(@PathVariable int id){
+		characterBoardService.deleteCharacter(id);
+		return new ResponseDTO<Integer>(HttpStatus.OK.value(),1);
 	}
 }
  
