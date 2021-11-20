@@ -55,6 +55,15 @@ public class CharacterBoard {
     @Column(nullable = true, length = 1000)
     private String bio;
 
+    @Column(nullable = true, length = 1000)
+    private String profileImageUrl;
+
+    @Column(nullable = true, length = 1000)
+    private String refImageUrl;
+
+    @Column(nullable = true, length = 1000)
+    private String illustrationImageUrls;
+
     @Lob // 대용량 데이
     private String profileImage;// Summer note Library<html>섞어서 디자인이 됨.터
 

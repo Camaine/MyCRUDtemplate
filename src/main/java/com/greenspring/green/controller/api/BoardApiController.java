@@ -72,6 +72,8 @@ public class BoardApiController {
 			jsonObject.addProperty("characteristic", cb.getCharacteristic());
 			jsonObject.addProperty("gender", cb.getGender());
 			jsonObject.addProperty("bio", cb.getBio());
+			jsonObject.addProperty("profileImageUrl", cb.getProfileImageUrl());
+			jsonObject.addProperty("refImageUrl", cb.getRefImageUrl());
 			jsonArray.add(jsonObject);
 		}
 		obj.add("data", jsonArray);
@@ -101,6 +103,8 @@ public class BoardApiController {
 		jsonObject.addProperty("characteristic", cb.getCharacteristic());
 		jsonObject.addProperty("gender", cb.getGender());
 		jsonObject.addProperty("bio", cb.getBio());
+		jsonObject.addProperty("profileImageUrl", cb.getProfileImageUrl());
+		jsonObject.addProperty("refImageUrl", cb.getRefImageUrl());
 		jsonArray.add(jsonObject);
 		obj.add("data", jsonArray);
 
