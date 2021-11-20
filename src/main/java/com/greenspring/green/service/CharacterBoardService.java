@@ -39,6 +39,13 @@ public class CharacterBoardService {
         );
     }
 
+    @Transactional(readOnly = true)
+    public CharacterBoard characterSingleInfo(int id){
+        return characterBoardRepository.findById(id).orElseThrow(()->{
+            return new IllegalArgumentException("글 찾기 실패 : 아이디를 찾을 수 없습니다.");
+        });
+    }
+
     @Transactional
     public void updateCharacter(int id, CharacterBoard requestCharacterBoard){
         CharacterBoard characterBoard = characterBoardRepository.findById(id)

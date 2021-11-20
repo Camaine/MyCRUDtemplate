@@ -79,6 +79,34 @@ public class BoardApiController {
 		return obj.toString();
 	}
 
+	@GetMapping("/api/getCharacterList/{id}")
+	public String getCharacterDetailInfo(@PathVariable int id) {
+
+		CharacterBoard cb = characterBoardService.characterSingleInfo(id);
+
+		JsonObject obj = new JsonObject();
+		obj.addProperty("title", "캐릭터정보");
+
+		JsonArray jsonArray = new JsonArray();
+
+		JsonObject jsonObject = new JsonObject();
+		jsonObject.addProperty("id", cb.getId());
+		jsonObject.addProperty("characterName", cb.getCharacterName());
+		jsonObject.addProperty("creatorName", cb.getCreatorName());
+		jsonObject.addProperty("ownerName", cb.getOwnerName());
+		jsonObject.addProperty("spices", cb.getSpices());
+		jsonObject.addProperty("primaryColor", cb.getPrimaryColor());
+		jsonObject.addProperty("secondaryColor", cb.getSecondaryColor());
+		jsonObject.addProperty("birthDay", cb.getBirthDay());
+		jsonObject.addProperty("characteristic", cb.getCharacteristic());
+		jsonObject.addProperty("gender", cb.getGender());
+		jsonObject.addProperty("bio", cb.getBio());
+		jsonArray.add(jsonObject);
+		obj.add("data", jsonArray);
+
+		return obj.toString();
+	}
+
 	@PutMapping("/api/updateCharacter/{id}")
 	public ResponseDTO<Integer> updateCharacter(@PathVariable int id, @RequestBody CharacterBoard characterBoard){
 		characterBoardService.updateCharacter(id,characterBoard);

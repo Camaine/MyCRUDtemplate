@@ -13,4 +13,5 @@ public interface CharacterBoardRepository extends JpaRepository<CharacterBoard, 
     List<CharacterBoard> findByCharacterNameContainingIgnoreCaseAndCreatorNameContainingIgnoreCaseAndPrimaryColorContainingAndSecondaryColorContaining(String characterName, String creatorName, String primaryColor, String secondaryColor);
     //JPA Naming Query
 
+
 }
