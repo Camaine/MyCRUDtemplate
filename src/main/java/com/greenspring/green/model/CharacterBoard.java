@@ -44,7 +44,7 @@ public class CharacterBoard {
     private String secondaryColor;
 
     @Column(nullable = true, length = 10)
-    private int birthDay;
+    private String birthDay;
 
     @Column(nullable = true, length = 100)
     private String characteristic;

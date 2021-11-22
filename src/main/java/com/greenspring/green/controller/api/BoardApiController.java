@@ -122,5 +122,19 @@ public class BoardApiController {
 		characterBoardService.deleteCharacter(id);
 		return new ResponseDTO<Integer>(HttpStatus.OK.value(),1);
 	}
+
+	@GetMapping("/api/latestCharacterId")
+	public String getLatestCharacterId(){
+		JsonObject obj = new JsonObject();
+		obj.addProperty("title", "maxId");
+
+		JsonArray jsonArray = new JsonArray();
+		JsonObject jsonObject = new JsonObject();
+		jsonObject.addProperty("maxId",  characterBoardService.getLatestCharacterId()+1);
+		jsonArray.add(jsonObject);
+		obj.add("data",jsonArray);
+
+		return obj.toString();
+	}
 }
  

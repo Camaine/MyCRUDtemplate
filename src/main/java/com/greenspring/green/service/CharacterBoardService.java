@@ -63,31 +63,8 @@ public class CharacterBoardService {
     }
 
     @Transactional(readOnly = true)
-    public Page<CharacterBoard> postList(Pageable pageable){
-        return characterBoardRepository.findAll(pageable);
+    public int getLatestCharacterId(){
+        return characterBoardRepository.maxId();
     }
 
-    @Transactional(readOnly = true)
-    public CharacterBoard showDetail(int id){
-        return characterBoardRepository.findById(id)
-                .orElseThrow(()->{
-                    return new IllegalArgumentException("글 상세보기 실패 : 아이디를 찾을 수 없습니다.");
-                });
-    }
-
-    @Transactional
-    public void deletePost(int id){
-        characterBoardRepository.deleteById(id);
-    }
-    @Transactional
-    public void updatePost(int id, CharacterBoard requestCharacterBoard){
-        CharacterBoard characterBoard = characterBoardRepository.findById(id)
-                .orElseThrow(()->{
-                    return new IllegalArgumentException("글 찾기 실패 : 아이디를 찾을 수 없습니다.");
-                });
-        characterBoard.setCharacterName(requestCharacterBoard.getCharacterName());
-        characterBoard.setProfileImage(requestCharacterBoard.getProfileImage());
-        System.out.println("update : " + id);
-        //해당 함수 종료시 트랜젝션종료, 더티체킹이 이루어지면서 자동업데이트
-    }
 }
