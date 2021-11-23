@@ -93,6 +93,7 @@ public class BoardApiController {
 
 		JsonObject jsonObject = new JsonObject();
 		jsonObject.addProperty("id", cb.getId());
+		jsonObject.addProperty("ownerUid", cb.getOwnerUid());
 		jsonObject.addProperty("characterName", cb.getCharacterName());
 		jsonObject.addProperty("creatorName", cb.getCreatorName());
 		jsonObject.addProperty("ownerName", cb.getOwnerName());
