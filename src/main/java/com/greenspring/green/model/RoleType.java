@@ -1,5 +1,5 @@
 package com.greenspring.green.model;
 
 public enum RoleType {
-    USER, ADMIN
+    USER, ADMIN, CREATOR
 }

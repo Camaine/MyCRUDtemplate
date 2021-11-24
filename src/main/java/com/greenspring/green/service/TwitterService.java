@@ -40,8 +40,19 @@ public class TwitterService {
 
     @Transactional
     public void twtUserRegister(TwtUser twtUser){
-        twtUser.setRole(RoleType.USER);
+        twtUser.setRole("USER");
+        twtUser.setLang("KR");
+        twtUser.setCharacterCnt(0);
         twtUserRepository.save(twtUser);
+    }
+
+    @Transactional(readOnly = true)
+    public TwtUser twtUserInfo(String uid){
+        TwtUser twtUser = twtUserRepository.findByUid(uid)
+                .orElseThrow(()->{
+                    return new IllegalArgumentException("Can't find user");
+                });
+        return twtUser;
     }
 
     @Transactional
@@ -51,9 +62,10 @@ public class TwitterService {
                     return new IllegalArgumentException("Can't find user");
                 });
         twtUser.setDisplayName(requestUser.getDisplayName());
-        twtUser.setScreenName(requestUser.getScreenName());
+        twtUser.setLang(requestUser.getLang());
         twtUser.setUpdateDate(requestUser.getUpdateDate());
-        System.out.println("update : " + uid);
+        twtUser.setPhotoURL(requestUser.getPhotoURL());
+        System.out.println("update : " + twtUser.getPhotoURL());
         //해당 함수 종료시 트랜젝션종료, 더티체킹이 이루어지면서 자동업데이트
     }
 

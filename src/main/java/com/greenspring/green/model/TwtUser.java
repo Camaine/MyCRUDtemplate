@@ -26,8 +26,14 @@ public class TwtUser {
     @Column(nullable = false, length = 100)
     private String screenName; // 아이디
 
-    @Column(nullable = false, length = 100) // 해쉬(비밀번호 암호화)
+    @Column(nullable = false, length = 100)
     private String displayName;
+
+    @Column(nullable = false)
+    private int characterCnt;
+
+    @Column(nullable = false, length = 1000)
+    private String photoURL;
 
     @CreationTimestamp //시간이 자동입력
     private Timestamp createDate;
@@ -36,8 +42,11 @@ public class TwtUser {
     private Timestamp updateDate;
 
     //In DB there no type'RoleType'
-    @Enumerated(EnumType.STRING)
-    private RoleType role; //admin, user
+    @Column(nullable = false, length = 255)
+    private String role; //admin, user
+
+    @Column(nullable = false, length = 255)
+    private String lang;
 
 
 }

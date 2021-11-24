@@ -1,6 +1,9 @@
 package com.greenspring.green.controller.api;
 
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
 import com.greenspring.green.model.Board;
+import com.greenspring.green.model.CharacterBoard;
 import com.greenspring.green.model.TwtUser;
 import com.greenspring.green.service.TwitterService;
 import com.greenspring.green.service.UserService;
@@ -12,6 +15,7 @@ import com.greenspring.green.dto.ResponseDTO;
 import com.greenspring.green.model.User;
 
 import javax.servlet.http.HttpSession;
+import java.util.List;
 
 @RestController
 public class UserApiController {
@@ -40,6 +44,29 @@ public class UserApiController {
 	public ResponseDTO<Integer> twtUpdate(@PathVariable String uid, @RequestBody TwtUser twtUser){
 		twitterService.twtUserUpdate(uid,twtUser);
 		return new ResponseDTO<Integer>(HttpStatus.OK.value(),1);
+	}
+
+	@PostMapping("/auth/twtUserInfo")
+	public String twtUserInfo(@RequestBody TwtUser twtUser) {
+
+		TwtUser tu = twitterService.twtUserInfo(twtUser.getUid());
+
+		JsonObject obj = new JsonObject();
+		obj.addProperty("title", "캐릭터정보");
+
+		JsonArray jsonArray = new JsonArray();
+
+		JsonObject jsonObject = new JsonObject();
+		jsonObject.addProperty("id", tu.getUid());
+		jsonObject.addProperty("displayName", tu.getDisplayName());
+		jsonObject.addProperty("role", tu.getRole());
+		jsonObject.addProperty("lang", tu.getLang());
+		jsonObject.addProperty("characterCnt", tu.getCharacterCnt());
+		jsonObject.addProperty("photoURL", tu.getPhotoURL());
+		jsonArray.add(jsonObject);
+		obj.add("data", jsonArray);
+
+		return obj.toString();
 	}
 }
  
