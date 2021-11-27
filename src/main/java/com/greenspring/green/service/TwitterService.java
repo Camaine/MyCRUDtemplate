@@ -42,7 +42,6 @@ public class TwitterService {
     public void twtUserRegister(TwtUser twtUser){
         twtUser.setRole("USER");
         twtUser.setLang("KR");
-        twtUser.setCharacterCnt(0);
         twtUserRepository.save(twtUser);
     }
 
@@ -62,8 +61,8 @@ public class TwitterService {
                     return new IllegalArgumentException("Can't find user");
                 });
         twtUser.setDisplayName(requestUser.getDisplayName());
+        twtUser.setScreenName(requestUser.getScreenName());
         twtUser.setLang(requestUser.getLang());
-        twtUser.setUpdateDate(requestUser.getUpdateDate());
         twtUser.setPhotoURL(requestUser.getPhotoURL());
         System.out.println("update : " + twtUser.getPhotoURL());
         //해당 함수 종료시 트랜젝션종료, 더티체킹이 이루어지면서 자동업데이트
