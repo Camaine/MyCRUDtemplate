@@ -61,6 +61,8 @@ public class CharacterBoardService {
                     return new IllegalArgumentException("글 찾기 실패 : 아이디를 찾을 수 없습니다.");
                 });
         characterBoard.setBio(requestCharacterBoard.getBio());
+        characterBoard.setProfileImageUrl(requestCharacterBoard.getProfileImageUrl());
+        characterBoard.setRefImageUrl(requestCharacterBoard.getRefImageUrl());
         System.out.println(characterBoard.getBio());
         System.out.println("update : " + id );
     }
