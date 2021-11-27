@@ -50,6 +50,14 @@ public class BoardApiController {
 		return new ResponseDTO<Integer>(HttpStatus.OK.value(),1); // change Java Object to JSON
 	}
 
+	@PostMapping("/api/checkAuthPost")
+	public ResponseDTO<Integer> checkAuthPost(@RequestBody CharacterBoard characterBoard) {
+		if(characterBoardService.postAuthCheck(characterBoard)){
+			return new ResponseDTO<Integer>(HttpStatus.OK.value(),1); // change Java Object to JSON
+		}
+		return new ResponseDTO<Integer>(HttpStatus.NON_AUTHORITATIVE_INFORMATION.value(),1); // change Java Object to JSON
+	}
+
 	@PostMapping("/api/getCharacterList")
 	public String getCharacterList(@RequestBody CharacterBoard characterBoard) {
 

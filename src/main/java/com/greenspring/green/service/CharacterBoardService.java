@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Objects;
 
 //Spring do component scan register to Bean, IoC
 @Service
@@ -31,8 +32,17 @@ public class CharacterBoardService {
 
         TwtUser twtUser = twtUserRepository.findByUidEquals(characterBoard.getOwnerUid()).get(0);
         twtUser.setCharacterCnt(twtUser.getCharacterCnt()+1);
-
         characterBoardRepository.save(characterBoard);
+    }
+
+    @Transactional
+    public boolean postAuthCheck(CharacterBoard characterBoard){
+        TwtUser twtUser = twtUserRepository.findByUidEquals(characterBoard.getOwnerUid()).get(0);
+        if(Objects.equals(twtUser.getRole(), "USER") && twtUser.getCharacterCnt() >= 5){
+            System.out.println("업로드 금지");
+            return false;
+        }
+        return true;
     }
 
     @Transactional(readOnly = true)
