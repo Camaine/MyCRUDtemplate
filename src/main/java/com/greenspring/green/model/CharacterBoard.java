@@ -61,6 +61,9 @@ public class CharacterBoard {
     @Column(nullable = true, length = 1000)
     private String refImageUrl;
 
+    @Column(nullable = false)
+    private int status;
+
     @Column(nullable = true, length = 1000)
     private String illustrationImageUrls;
 

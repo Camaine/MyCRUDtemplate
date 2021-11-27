@@ -8,7 +8,7 @@ spring:
 
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://greenworld.dscloud.me:3306/furse_prd?useUnicode=true
+    url: jdbc:mysql://greenworld.dscloud.me:3306/blog?useUnicode=true
     username: root
     password: P!ssw0rd
     hikari:

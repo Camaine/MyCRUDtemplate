@@ -1,6 +1,7 @@
 package com.greenspring.green.service;
 
 import com.greenspring.green.model.CharacterBoard;
+import com.greenspring.green.model.TwtUser;
 import com.greenspring.green.repo.CharacterBoardRepository;
 import com.greenspring.green.repo.TwtUserRepository;
 import org.springframework.data.domain.Page;
@@ -26,12 +27,18 @@ public class CharacterBoardService {
     public void post(CharacterBoard characterBoard){
         characterBoard.setCount(0);
         characterBoard.setOwnerName(twtUserRepository.findByUidEquals(characterBoard.getOwnerUid()).get(0).getDisplayName());
+        characterBoard.setStatus(0);
+
+        TwtUser twtUser = twtUserRepository.findByUidEquals(characterBoard.getOwnerUid()).get(0);
+        twtUser.setCharacterCnt(twtUser.getCharacterCnt()+1);
+
         characterBoardRepository.save(characterBoard);
     }
 
     @Transactional(readOnly = true)
     public List<CharacterBoard> characterList(CharacterBoard characterBoard){
-        return characterBoardRepository.findByOwnerUidContainingIgnoreCaseAndCharacterNameContainingIgnoreCaseAndCreatorNameContainingIgnoreCaseAndPrimaryColorContainingAndSecondaryColorContaining(
+        return characterBoardRepository.findByStatusEqualsAndOwnerUidContainingIgnoreCaseAndCharacterNameContainingIgnoreCaseAndCreatorNameContainingIgnoreCaseAndPrimaryColorContainingAndSecondaryColorContaining(
+                0,
                 characterBoard.getOwnerUid(),
                 characterBoard.getCharacterName(),
                 characterBoard.getCreatorName(),
@@ -53,14 +60,21 @@ public class CharacterBoardService {
                 .orElseThrow(()->{
                     return new IllegalArgumentException("글 찾기 실패 : 아이디를 찾을 수 없습니다.");
                 });
-        characterBoard.setCharacterName(requestCharacterBoard.getCharacterName());
         characterBoard.setBio(requestCharacterBoard.getBio());
+        System.out.println(characterBoard.getBio());
         System.out.println("update : " + id );
     }
 
     @Transactional
     public void deleteCharacter(int id){
-        characterBoardRepository.deleteById(id);
+        CharacterBoard characterBoard = characterBoardRepository.findById(id)
+                .orElseThrow(()->{
+                    return new IllegalArgumentException("글 찾기 실패 : 아이디를 찾을 수 없습니다.");
+                });
+        TwtUser twtUser = twtUserRepository.findByUidEquals(characterBoard.getOwnerUid()).get(0);
+        twtUser.setCharacterCnt(twtUser.getCharacterCnt()-1);
+
+        characterBoard.setStatus(2);
     }
 
     @Transactional(readOnly = true)
