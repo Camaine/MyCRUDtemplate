@@ -46,6 +46,12 @@ public class UserApiController {
 		return new ResponseDTO<Integer>(HttpStatus.OK.value(),1);
 	}
 
+	@PutMapping("/auth/twtAccountUpdate/{uid}")
+	public ResponseDTO<Integer> twtAccountUpdate(@PathVariable String uid, @RequestBody TwtUser twtUser){
+		twitterService.twtUserUpdateDisplayNameLang(uid,twtUser);
+		return new ResponseDTO<Integer>(HttpStatus.OK.value(),1);
+	}
+
 	@PostMapping("/auth/twtUserInfo")
 	public String twtUserInfo(@RequestBody TwtUser twtUser) {
 

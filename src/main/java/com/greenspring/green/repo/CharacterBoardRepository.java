@@ -11,8 +11,7 @@ import java.util.Optional;
 // Automatically Register Bean
 // @Repository 생략 가능
 public interface CharacterBoardRepository extends JpaRepository<CharacterBoard, Integer> {
-
-    List<CharacterBoard> findByStatusEqualsAndOwnerUidContainingIgnoreCaseAndCharacterNameContainingIgnoreCaseAndCreatorNameContainingIgnoreCaseAndPrimaryColorContainingAndSecondaryColorContaining(int status, String ownerUid, String characterName, String creatorName, String primaryColor, String secondaryColor);
+    List<CharacterBoard> findByStatusEqualsAndOwnerUidContainingIgnoreCaseAndCharacterNameContainingIgnoreCaseAndCreatorNameContainingIgnoreCaseAndPrimaryColorContainingIgnoreCaseAndSecondaryColorContainingIgnoreCase(int status, String ownerUid, String characterName, String creatorName, String primaryColor, String secondaryColor);
 
     @Query("select max(c.id) from CharacterBoard c")
     int maxId();

@@ -8,6 +8,7 @@ import com.greenspring.green.model.Board;
 import com.greenspring.green.model.CharacterBoard;
 import com.greenspring.green.service.BoardService;
 import com.greenspring.green.service.CharacterBoardService;
+import com.greenspring.green.service.CodeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -23,6 +24,9 @@ public class BoardApiController {
 
 	@Autowired
 	private CharacterBoardService characterBoardService;
+
+	@Autowired
+	private CodeService codeService;
 
 	@PostMapping("/api/board")
 	public ResponseDTO<Integer> save(@RequestBody Board board, @AuthenticationPrincipal PrincipalDetails principal) {
@@ -58,27 +62,37 @@ public class BoardApiController {
 		return new ResponseDTO<Integer>(HttpStatus.NON_AUTHORITATIVE_INFORMATION.value(),1); // change Java Object to JSON
 	}
 
-	@PostMapping("/api/getCharacterList")
-	public String getCharacterList(@RequestBody CharacterBoard characterBoard) {
+	@PostMapping("/api/getCharacterList/{lang}")
+	public String getCharacterList(@PathVariable String lang,@RequestBody CharacterBoard characterBoard) {
 
 		List<CharacterBoard> searchValList = characterBoardService.characterList(characterBoard);
 
 		JsonObject obj = new JsonObject();
 		obj.addProperty("title", "검색");
 
+		String speices = "";
+		String primaryColor = "";
+		String secondaryColor = "";
+		String gender = "";
+
 		JsonArray jsonArray = new JsonArray();
 		for (CharacterBoard cb : searchValList) {
+			speices = codeService.getLocalizedString(cb.getSpices(),lang);
+			primaryColor = codeService.getLocalizedString(cb.getPrimaryColor(),lang);
+			secondaryColor = codeService.getLocalizedString(cb.getSecondaryColor(),lang);
+			gender = codeService.getLocalizedString(cb.getGender(),lang);
+
 			JsonObject jsonObject = new JsonObject();
 			jsonObject.addProperty("id", cb.getId());
 			jsonObject.addProperty("characterName", cb.getCharacterName());
 			jsonObject.addProperty("creatorName", cb.getCreatorName());
 			jsonObject.addProperty("ownerName", cb.getOwnerName());
-			jsonObject.addProperty("spices", cb.getSpices());
-			jsonObject.addProperty("primaryColor", cb.getPrimaryColor());
-			jsonObject.addProperty("secondaryColor", cb.getSecondaryColor());
+			jsonObject.addProperty("spices", speices);
+			jsonObject.addProperty("primaryColor", primaryColor);
+			jsonObject.addProperty("secondaryColor", secondaryColor);
 			jsonObject.addProperty("birthDay", cb.getBirthDay());
 			jsonObject.addProperty("characteristic", cb.getCharacteristic());
-			jsonObject.addProperty("gender", cb.getGender());
+			jsonObject.addProperty("gender", gender);
 			jsonObject.addProperty("bio", cb.getBio());
 			jsonObject.addProperty("profileImageUrl", cb.getProfileImageUrl());
 			jsonObject.addProperty("refImageUrl", cb.getRefImageUrl());
@@ -89,13 +103,23 @@ public class BoardApiController {
 		return obj.toString();
 	}
 
-	@GetMapping("/api/getCharacterList/{id}")
-	public String getCharacterDetailInfo(@PathVariable int id) {
+	@GetMapping("/api/getCharacterList/{id}/{lang}")
+	public String getCharacterDetailInfo(@PathVariable int id,@PathVariable String lang) {
 
 		CharacterBoard cb = characterBoardService.characterSingleInfo(id);
 
 		JsonObject obj = new JsonObject();
 		obj.addProperty("title", "캐릭터정보");
+
+		String speices = "";
+		String primaryColor = "";
+		String secondaryColor = "";
+		String gender = "";
+
+		speices = codeService.getLocalizedString(cb.getSpices(),lang);
+		primaryColor = codeService.getLocalizedString(cb.getPrimaryColor(),lang);
+		secondaryColor = codeService.getLocalizedString(cb.getSecondaryColor(),lang);
+		gender = codeService.getLocalizedString(cb.getGender(),lang);
 
 		JsonArray jsonArray = new JsonArray();
 
@@ -105,12 +129,12 @@ public class BoardApiController {
 		jsonObject.addProperty("characterName", cb.getCharacterName());
 		jsonObject.addProperty("creatorName", cb.getCreatorName());
 		jsonObject.addProperty("ownerName", cb.getOwnerName());
-		jsonObject.addProperty("spices", cb.getSpices());
-		jsonObject.addProperty("primaryColor", cb.getPrimaryColor());
-		jsonObject.addProperty("secondaryColor", cb.getSecondaryColor());
+		jsonObject.addProperty("spices", speices);
+		jsonObject.addProperty("primaryColor", primaryColor);
+		jsonObject.addProperty("secondaryColor", secondaryColor);
 		jsonObject.addProperty("birthDay", cb.getBirthDay());
 		jsonObject.addProperty("characteristic", cb.getCharacteristic());
-		jsonObject.addProperty("gender", cb.getGender());
+		jsonObject.addProperty("gender", gender);
 		jsonObject.addProperty("bio", cb.getBio());
 		jsonObject.addProperty("profileImageUrl", cb.getProfileImageUrl());
 		jsonObject.addProperty("refImageUrl", cb.getRefImageUrl());

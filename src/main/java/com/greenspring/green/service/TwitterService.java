@@ -62,9 +62,18 @@ public class TwitterService {
                 });
         twtUser.setDisplayName(requestUser.getDisplayName());
         twtUser.setScreenName(requestUser.getScreenName());
-        twtUser.setLang(requestUser.getLang());
         twtUser.setPhotoURL(requestUser.getPhotoURL());
-        System.out.println("update : " + twtUser.getPhotoURL());
+        //해당 함수 종료시 트랜젝션종료, 더티체킹이 이루어지면서 자동업데이트
+    }
+
+    @Transactional
+    public void twtUserUpdateDisplayNameLang(String uid, TwtUser requestUser){
+        TwtUser twtUser = twtUserRepository.findByUid(uid)
+                .orElseThrow(()->{
+                    return new IllegalArgumentException("Can't find user");
+                });
+        twtUser.setDisplayName(requestUser.getDisplayName());
+        twtUser.setLang(requestUser.getLang());
         //해당 함수 종료시 트랜젝션종료, 더티체킹이 이루어지면서 자동업데이트
     }
 

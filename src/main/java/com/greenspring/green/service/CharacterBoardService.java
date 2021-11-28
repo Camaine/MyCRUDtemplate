@@ -47,7 +47,7 @@ public class CharacterBoardService {
 
     @Transactional(readOnly = true)
     public List<CharacterBoard> characterList(CharacterBoard characterBoard){
-        return characterBoardRepository.findByStatusEqualsAndOwnerUidContainingIgnoreCaseAndCharacterNameContainingIgnoreCaseAndCreatorNameContainingIgnoreCaseAndPrimaryColorContainingAndSecondaryColorContaining(
+        return characterBoardRepository.findByStatusEqualsAndOwnerUidContainingIgnoreCaseAndCharacterNameContainingIgnoreCaseAndCreatorNameContainingIgnoreCaseAndPrimaryColorContainingIgnoreCaseAndSecondaryColorContainingIgnoreCase(
                 0,
                 characterBoard.getOwnerUid(),
                 characterBoard.getCharacterName(),
