@@ -46,14 +46,16 @@ public class CharacterBoardService {
     }
 
     @Transactional(readOnly = true)
-    public List<CharacterBoard> characterList(CharacterBoard characterBoard){
-        return characterBoardRepository.findByStatusEqualsAndOwnerUidContainingIgnoreCaseAndCharacterNameContainingIgnoreCaseAndCreatorNameContainingIgnoreCaseAndPrimaryColorContainingIgnoreCaseAndSecondaryColorContainingIgnoreCase(
+    public List<CharacterBoard> characterList(CharacterBoard characterBoard, Pageable pageable){
+        return characterBoardRepository.findByStatusEqualsAndOwnerUidContainingIgnoreCaseAndCharacterNameContainingIgnoreCaseAndCreatorNameContainingIgnoreCaseAndSpicesContainingIgnoreCaseAndPrimaryColorContainingIgnoreCaseAndSecondaryColorContainingIgnoreCase(
                 0,
                 characterBoard.getOwnerUid(),
                 characterBoard.getCharacterName(),
                 characterBoard.getCreatorName(),
+                characterBoard.getSpices(),
                 characterBoard.getPrimaryColor(),
-                characterBoard.getSecondaryColor()
+                characterBoard.getSecondaryColor(),
+                pageable
         );
     }
 

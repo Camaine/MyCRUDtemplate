@@ -10,6 +10,9 @@ import com.greenspring.green.service.BoardService;
 import com.greenspring.green.service.CharacterBoardService;
 import com.greenspring.green.service.CodeService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
@@ -63,9 +66,9 @@ public class BoardApiController {
 	}
 
 	@PostMapping("/api/getCharacterList/{lang}")
-	public String getCharacterList(@PathVariable String lang,@RequestBody CharacterBoard characterBoard) {
+	public String getCharacterList(@PathVariable String lang,@RequestBody CharacterBoard characterBoard, @PageableDefault(size = 6) Pageable pageable) {
 
-		List<CharacterBoard> searchValList = characterBoardService.characterList(characterBoard);
+		List<CharacterBoard> searchValList = characterBoardService.characterList(characterBoard, pageable);
 
 		JsonObject obj = new JsonObject();
 		obj.addProperty("title", "검색");
