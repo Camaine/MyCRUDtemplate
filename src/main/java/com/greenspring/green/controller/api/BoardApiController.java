@@ -66,7 +66,7 @@ public class BoardApiController {
 	}
 
 	@PostMapping("/api/getCharacterList/{lang}")
-	public String getCharacterList(@PathVariable String lang,@RequestBody CharacterBoard characterBoard, @PageableDefault(size = 6) Pageable pageable) {
+	public String getCharacterList(@PathVariable String lang,@RequestBody CharacterBoard characterBoard, @PageableDefault(size = 24) Pageable pageable) {
 
 		List<CharacterBoard> searchValList = characterBoardService.characterList(characterBoard, pageable);
 
