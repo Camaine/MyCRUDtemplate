@@ -59,9 +59,14 @@ public class BoardApiController {
 
 	@PostMapping("/api/checkAuthPost")
 	public ResponseDTO<Integer> checkAuthPost(@RequestBody CharacterBoard characterBoard) {
-		if(characterBoardService.postAuthCheck(characterBoard)){
+		if(characterBoardService.postAuthCheck(characterBoard) == 0){
 			return new ResponseDTO<Integer>(HttpStatus.OK.value(),1); // change Java Object to JSON
 		}
+
+		if(characterBoardService.postAuthCheck(characterBoard) == 1){
+			return new ResponseDTO<Integer>(HttpStatus.RESET_CONTENT.value(),1); // change Java Object to JSON
+		}
+
 		return new ResponseDTO<Integer>(HttpStatus.NON_AUTHORITATIVE_INFORMATION.value(),1); // change Java Object to JSON
 	}
 

@@ -36,13 +36,18 @@ public class CharacterBoardService {
     }
 
     @Transactional
-    public boolean postAuthCheck(CharacterBoard characterBoard){
+    public int postAuthCheck(CharacterBoard characterBoard){
         TwtUser twtUser = twtUserRepository.findByUidEquals(characterBoard.getOwnerUid()).get(0);
         if(Objects.equals(twtUser.getRole(), "USER") && twtUser.getCharacterCnt() >= 5){
             System.out.println("업로드 금지");
-            return false;
+            return 2;
         }
-        return true;
+
+        if(Objects.equals(twtUser.getRole(), "CREATOR") && twtUser.getCharacterCnt() >= 30){
+            System.out.println("업로드 금지");
+            return 1;
+        }
+        return 0;
     }
 
     @Transactional(readOnly = true)
