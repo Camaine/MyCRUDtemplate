@@ -52,7 +52,7 @@ public class CharacterBoardService {
 
     @Transactional(readOnly = true)
     public List<CharacterBoard> characterList(CharacterBoard characterBoard, Pageable pageable){
-        return characterBoardRepository.findByStatusEqualsAndOwnerUidContainingIgnoreCaseAndCharacterNameContainingIgnoreCaseAndCreatorNameContainingIgnoreCaseAndSpicesContainingIgnoreCaseAndPrimaryColorContainingIgnoreCaseAndSecondaryColorContainingIgnoreCase(
+        return characterBoardRepository.findByStatusEqualsAndOwnerUidContainingIgnoreCaseAndCharacterNameContainingIgnoreCaseAndCreatorNameContainingIgnoreCaseAndSpicesContainingIgnoreCaseAndPrimaryColorContainingIgnoreCaseAndSecondaryColorContainingIgnoreCaseOrderByIdDesc(
                 0,
                 characterBoard.getOwnerUid(),
                 characterBoard.getCharacterName(),

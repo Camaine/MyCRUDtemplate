@@ -9,6 +9,7 @@ import com.greenspring.green.model.CharacterBoard;
 import com.greenspring.green.service.BoardService;
 import com.greenspring.green.service.CharacterBoardService;
 import com.greenspring.green.service.CodeService;
+import com.greenspring.green.service.ServiceLogService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -30,6 +31,9 @@ public class BoardApiController {
 
 	@Autowired
 	private CodeService codeService;
+
+	@Autowired
+	private ServiceLogService serviceLogService;
 
 	@PostMapping("/api/board")
 	public ResponseDTO<Integer> save(@RequestBody Board board, @AuthenticationPrincipal PrincipalDetails principal) {
@@ -54,19 +58,23 @@ public class BoardApiController {
 	public ResponseDTO<Integer> saveCharacterInfo(@RequestBody CharacterBoard characterBoard) {
 		System.out.println("Call BoardApiController : characterInfo");
 		characterBoardService.post(characterBoard);
+		serviceLogService.saveServiceLog("AFI0000011", characterBoard.getOwnerUid(), characterBoard.getId()+","+characterBoard.getCharacterName(), 200);
 		return new ResponseDTO<Integer>(HttpStatus.OK.value(),1); // change Java Object to JSON
 	}
 
 	@PostMapping("/api/checkAuthPost")
 	public ResponseDTO<Integer> checkAuthPost(@RequestBody CharacterBoard characterBoard) {
 		if(characterBoardService.postAuthCheck(characterBoard) == 0){
+			serviceLogService.saveServiceLog("AFI0000012", characterBoard.getOwnerUid(), characterBoard.getCharacterName(), 200);
 			return new ResponseDTO<Integer>(HttpStatus.OK.value(),1); // change Java Object to JSON
 		}
 
 		if(characterBoardService.postAuthCheck(characterBoard) == 1){
+			serviceLogService.saveServiceLog("AFI0000012", characterBoard.getOwnerUid(), characterBoard.getCharacterName(), 205);
 			return new ResponseDTO<Integer>(HttpStatus.RESET_CONTENT.value(),1); // change Java Object to JSON
 		}
 
+		serviceLogService.saveServiceLog("AFI0000012", characterBoard.getOwnerUid(), characterBoard.getCharacterName(), 203);
 		return new ResponseDTO<Integer>(HttpStatus.NON_AUTHORITATIVE_INFORMATION.value(),1); // change Java Object to JSON
 	}
 
@@ -108,6 +116,7 @@ public class BoardApiController {
 		}
 		obj.add("data", jsonArray);
 
+		serviceLogService.saveServiceLog("AFI0000013", "unknown", "get character List", 200);
 		return obj.toString();
 	}
 
@@ -149,18 +158,21 @@ public class BoardApiController {
 		jsonArray.add(jsonObject);
 		obj.add("data", jsonArray);
 
+		serviceLogService.saveServiceLog("AFI0000014", "unknown", String.valueOf(id), 200);
 		return obj.toString();
 	}
 
 	@PutMapping("/api/updateCharacter/{id}")
 	public ResponseDTO<Integer> updateCharacter(@PathVariable int id, @RequestBody CharacterBoard characterBoard){
 		characterBoardService.updateCharacter(id,characterBoard);
+		serviceLogService.saveServiceLog("AFI0000015", characterBoard.getOwnerUid(), String.valueOf(id), 200);
 		return new ResponseDTO<Integer>(HttpStatus.OK.value(),1);
 	}
 
 	@DeleteMapping("/api/deleteCharacter/{id}")
 	public ResponseDTO<Integer> deleteCharacter(@PathVariable int id){
 		characterBoardService.deleteCharacter(id);
+		serviceLogService.saveServiceLog("AFI0000016", "unknown", String.valueOf(id), 200);
 		return new ResponseDTO<Integer>(HttpStatus.OK.value(),1);
 	}
 
