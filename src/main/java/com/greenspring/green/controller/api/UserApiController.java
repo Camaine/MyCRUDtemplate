@@ -55,7 +55,7 @@ public class UserApiController {
 	@PutMapping("/auth/twtAccountUpdate/{uid}")
 	public ResponseDTO<Integer> twtAccountUpdate(@PathVariable String uid, @RequestBody TwtUser twtUser){
 		twitterService.twtUserUpdateDisplayNameLang(uid,twtUser);
-		serviceLogService.saveServiceLog("AFI0000003", twtUser.getUid(), twtUser.getDisplayName()+","+twtUser.getLang(), 200);
+		//serviceLogService.saveServiceLog("AFI0000003", twtUser.getUid(), twtUser.getDisplayName()+","+twtUser.getLang(), 200);
 		return new ResponseDTO<Integer>(HttpStatus.OK.value(),1);
 	}
 

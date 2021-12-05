@@ -37,7 +37,10 @@ public class CharacterBoardService {
 
     @Transactional
     public int postAuthCheck(CharacterBoard characterBoard){
+
         TwtUser twtUser = twtUserRepository.findByUidEquals(characterBoard.getOwnerUid()).get(0);
+        //System.out.println(twtUser.getRole());
+        //System.out.println(twtUser.getCharacterCnt());
         if(Objects.equals(twtUser.getRole(), "USER") && twtUser.getCharacterCnt() >= 5){
             System.out.println("업로드 금지");
             return 2;
@@ -66,8 +69,8 @@ public class CharacterBoardService {
 
     @Transactional(readOnly = true)
     public CharacterBoard characterSingleInfo(int id){
-        return characterBoardRepository.findById(id).orElseThrow(()->{
-            return new IllegalArgumentException("글 찾기 실패 : 아이디를 찾을 수 없습니다.");
+        return characterBoardRepository.findByIdEqualsAndStatusEquals(id, 0).orElseThrow(()->{
+            return new IllegalArgumentException("글 찾기 실패 : 아이디가 없거나 삭제 상태 게시글");
         });
     }
 

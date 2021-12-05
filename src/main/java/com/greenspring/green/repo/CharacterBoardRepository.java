@@ -15,6 +15,13 @@ import java.util.Optional;
 public interface CharacterBoardRepository extends JpaRepository<CharacterBoard, Integer> {
     List<CharacterBoard> findByStatusEqualsAndOwnerUidContainingIgnoreCaseAndCharacterNameContainingIgnoreCaseAndCreatorNameContainingIgnoreCaseAndSpicesContainingIgnoreCaseAndPrimaryColorContainingIgnoreCaseAndSecondaryColorContainingIgnoreCaseOrderByIdDesc(int status, String ownerUid, String characterName, String creatorName, String spices,String primaryColor, String secondaryColor, Pageable pageable);
 
+    List<CharacterBoard> findByStatusEqualsAndOwnerUidContainingIgnoreCaseAndCharacterNameContainingIgnoreCaseAndCreatorNameContainingIgnoreCaseAndSpicesContainingIgnoreCaseAndPrimaryColorContainingIgnoreCaseAndSecondaryColorContainingIgnoreCase(int status, String ownerUid, String characterName, String creatorName, String spices,String primaryColor, String secondaryColor);
+
+    Optional<CharacterBoard> findByIdEqualsAndStatusEquals(int id, int status);
+
+
+
+
     @Query("select max(c.id) from CharacterBoard c")
     int maxId();
     //JPA Naming Query

@@ -41,7 +41,6 @@ public class TwitterService {
     @Transactional
     public void twtUserRegister(TwtUser twtUser){
         twtUser.setRole("USER");
-        twtUser.setLang("KR");
         twtUserRepository.save(twtUser);
     }
 
@@ -60,10 +59,8 @@ public class TwitterService {
                 .orElseThrow(()->{
                     return new IllegalArgumentException("Can't find user");
                 });
-        twtUser.setDisplayName(requestUser.getDisplayName());
         twtUser.setScreenName(requestUser.getScreenName());
         twtUser.setPhotoURL(requestUser.getPhotoURL());
-        //해당 함수 종료시 트랜젝션종료, 더티체킹이 이루어지면서 자동업데이트
     }
 
     @Transactional

@@ -58,23 +58,23 @@ public class BoardApiController {
 	public ResponseDTO<Integer> saveCharacterInfo(@RequestBody CharacterBoard characterBoard) {
 		System.out.println("Call BoardApiController : characterInfo");
 		characterBoardService.post(characterBoard);
-		serviceLogService.saveServiceLog("AFI0000011", characterBoard.getOwnerUid(), characterBoard.getId()+","+characterBoard.getCharacterName(), 200);
+		//serviceLogService.saveServiceLog("AFI0000011", characterBoard.getOwnerUid(), characterBoard.getId()+","+characterBoard.getCharacterName(), 200);
 		return new ResponseDTO<Integer>(HttpStatus.OK.value(),1); // change Java Object to JSON
 	}
 
 	@PostMapping("/api/checkAuthPost")
 	public ResponseDTO<Integer> checkAuthPost(@RequestBody CharacterBoard characterBoard) {
 		if(characterBoardService.postAuthCheck(characterBoard) == 0){
-			serviceLogService.saveServiceLog("AFI0000012", characterBoard.getOwnerUid(), characterBoard.getCharacterName(), 200);
+			//serviceLogService.saveServiceLog("AFI0000012", characterBoard.getOwnerUid(), characterBoard.getCharacterName(), 200);
 			return new ResponseDTO<Integer>(HttpStatus.OK.value(),1); // change Java Object to JSON
 		}
 
 		if(characterBoardService.postAuthCheck(characterBoard) == 1){
-			serviceLogService.saveServiceLog("AFI0000012", characterBoard.getOwnerUid(), characterBoard.getCharacterName(), 205);
+			//serviceLogService.saveServiceLog("AFI0000012", characterBoard.getOwnerUid(), characterBoard.getCharacterName(), 205);
 			return new ResponseDTO<Integer>(HttpStatus.RESET_CONTENT.value(),1); // change Java Object to JSON
 		}
 
-		serviceLogService.saveServiceLog("AFI0000012", characterBoard.getOwnerUid(), characterBoard.getCharacterName(), 203);
+		//serviceLogService.saveServiceLog("AFI0000012", characterBoard.getOwnerUid(), characterBoard.getCharacterName(), 203);
 		return new ResponseDTO<Integer>(HttpStatus.NON_AUTHORITATIVE_INFORMATION.value(),1); // change Java Object to JSON
 	}
 
@@ -116,7 +116,7 @@ public class BoardApiController {
 		}
 		obj.add("data", jsonArray);
 
-		serviceLogService.saveServiceLog("AFI0000013", "unknown", "get character List", 200);
+		//serviceLogService.saveServiceLog("AFI0000013", "unknown", "get character List", 200);
 		return obj.toString();
 	}
 
@@ -158,7 +158,7 @@ public class BoardApiController {
 		jsonArray.add(jsonObject);
 		obj.add("data", jsonArray);
 
-		serviceLogService.saveServiceLog("AFI0000014", "unknown", String.valueOf(id), 200);
+		//serviceLogService.saveServiceLog("AFI0000014", "unknown", String.valueOf(id), 200);
 		return obj.toString();
 	}
 
