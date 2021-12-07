@@ -72,6 +72,9 @@ public class CharacterBoard {
 
     private int count;//조회수
 
+    @Column(nullable = false)
+    private int likeCount;
+
     @ManyToOne(fetch = FetchType.EAGER) // Many = Board, User = One
     @JoinColumn(name="userId")
     private TwtUser twtUser;//DB는 오브젝트를 저장할 수 없다. FK, 자바는 오브젝트를 저장할 수 있다.

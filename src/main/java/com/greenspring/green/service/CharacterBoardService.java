@@ -70,7 +70,7 @@ public class CharacterBoardService {
     @Transactional(readOnly = true)
     public CharacterBoard characterSingleInfo(int id){
         return characterBoardRepository.findByIdEqualsAndStatusEquals(id, 0).orElseThrow(()->{
-            return new IllegalArgumentException("글 찾기 실패 : 아이디가 없거나 삭제 상태 게시글");
+            return new IllegalArgumentException("글 찾기 실패 : 아이디가 없거나 삭제 상태 게시글(게시글1개찾기)");
         });
     }
 
@@ -78,8 +78,16 @@ public class CharacterBoardService {
     public void updateCharacter(int id, CharacterBoard requestCharacterBoard){
         CharacterBoard characterBoard = characterBoardRepository.findById(id)
                 .orElseThrow(()->{
-                    return new IllegalArgumentException("글 찾기 실패 : 아이디를 찾을 수 없습니다.");
+                    return new IllegalArgumentException("글 찾기 실패 : 아이디를 찾을 수 없습니다.(업데이트)");
                 });
+        characterBoard.setCharacterName(requestCharacterBoard.getCreatorName());
+        characterBoard.setCreatorName(requestCharacterBoard.getCreatorName());
+        characterBoard.setSpices(requestCharacterBoard.getSpices());
+        characterBoard.setPrimaryColor(requestCharacterBoard.getPrimaryColor());
+        characterBoard.setSecondaryColor(requestCharacterBoard.getSecondaryColor());
+        characterBoard.setBirthDay(requestCharacterBoard.getBirthDay());
+        characterBoard.setCharacteristic(requestCharacterBoard.getCharacteristic());
+        characterBoard.setGender(requestCharacterBoard.getGender());
         characterBoard.setBio(requestCharacterBoard.getBio());
         characterBoard.setProfileImageUrl(requestCharacterBoard.getProfileImageUrl());
         characterBoard.setRefImageUrl(requestCharacterBoard.getRefImageUrl());
@@ -91,7 +99,7 @@ public class CharacterBoardService {
     public void deleteCharacter(int id){
         CharacterBoard characterBoard = characterBoardRepository.findById(id)
                 .orElseThrow(()->{
-                    return new IllegalArgumentException("글 찾기 실패 : 아이디를 찾을 수 없습니다.");
+                    return new IllegalArgumentException("글 찾기 실패 : 아이디를 찾을 수 없습니다.(삭제)");
                 });
         TwtUser twtUser = twtUserRepository.findByUidEquals(characterBoard.getOwnerUid()).get(0);
         twtUser.setCharacterCnt(twtUser.getCharacterCnt()-1);

@@ -25,7 +25,7 @@ public class CodeService {
     @Transactional
     public String getLocalizedString(String code,String lang){
         CodeTable codeTable = codeTableRepository.findByCodeNameEquals(code).orElseThrow(()->{
-            return new IllegalArgumentException("글 찾기 실패 : 아이디를 찾을 수 없습니다.");
+            return new IllegalArgumentException("글 찾기 실패 : 아이디를 찾을 수 없습니다.(코드찾기)");
         });
         if(lang.equals("EN")){
             return codeTable.getEN();

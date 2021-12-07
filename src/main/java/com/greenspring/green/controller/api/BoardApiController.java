@@ -6,10 +6,9 @@ import com.greenspring.green.config.auth.PrincipalDetails;
 import com.greenspring.green.dto.ResponseDTO;
 import com.greenspring.green.model.Board;
 import com.greenspring.green.model.CharacterBoard;
-import com.greenspring.green.service.BoardService;
-import com.greenspring.green.service.CharacterBoardService;
-import com.greenspring.green.service.CodeService;
-import com.greenspring.green.service.ServiceLogService;
+import com.greenspring.green.model.CharacterLikeLog;
+import com.greenspring.green.model.TwtUser;
+import com.greenspring.green.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -30,10 +29,16 @@ public class BoardApiController {
 	private CharacterBoardService characterBoardService;
 
 	@Autowired
+	private TwitterService twitterService;
+
+	@Autowired
 	private CodeService codeService;
 
 	@Autowired
 	private ServiceLogService serviceLogService;
+
+	@Autowired
+	private CharacterLikeLogService characterLikeLogService;
 
 	@PostMapping("/api/board")
 	public ResponseDTO<Integer> save(@RequestBody Board board, @AuthenticationPrincipal PrincipalDetails principal) {
@@ -90,6 +95,8 @@ public class BoardApiController {
 		String primaryColor = "";
 		String secondaryColor = "";
 		String gender = "";
+		String displayName = "";
+		String screenName = "";
 
 		JsonArray jsonArray = new JsonArray();
 		for (CharacterBoard cb : searchValList) {
@@ -98,11 +105,17 @@ public class BoardApiController {
 			secondaryColor = codeService.getLocalizedString(cb.getSecondaryColor(),lang);
 			gender = codeService.getLocalizedString(cb.getGender(),lang);
 
+			TwtUser twtUser = new TwtUser();
+			twtUser = twitterService.twtUserInfo(cb.getOwnerUid());
+			displayName = twtUser.getDisplayName();
+			screenName = twtUser.getScreenName();
+
 			JsonObject jsonObject = new JsonObject();
 			jsonObject.addProperty("id", cb.getId());
 			jsonObject.addProperty("characterName", cb.getCharacterName());
 			jsonObject.addProperty("creatorName", cb.getCreatorName());
-			jsonObject.addProperty("ownerName", cb.getOwnerName());
+			jsonObject.addProperty("ownerName", displayName);
+			jsonObject.addProperty("screenName",screenName);
 			jsonObject.addProperty("spices", speices);
 			jsonObject.addProperty("primaryColor", primaryColor);
 			jsonObject.addProperty("secondaryColor", secondaryColor);
@@ -132,11 +145,51 @@ public class BoardApiController {
 		String primaryColor = "";
 		String secondaryColor = "";
 		String gender = "";
+		String displayName = "";
+		String screenName = "";
 
 		speices = codeService.getLocalizedString(cb.getSpices(),lang);
 		primaryColor = codeService.getLocalizedString(cb.getPrimaryColor(),lang);
 		secondaryColor = codeService.getLocalizedString(cb.getSecondaryColor(),lang);
 		gender = codeService.getLocalizedString(cb.getGender(),lang);
+
+		TwtUser twtUser = new TwtUser();
+		twtUser = twitterService.twtUserInfo(cb.getOwnerUid());
+		displayName = twtUser.getDisplayName();
+		screenName = twtUser.getScreenName();
+
+		JsonArray jsonArray = new JsonArray();
+
+		JsonObject jsonObject = new JsonObject();
+		jsonObject.addProperty("id", cb.getId());
+		jsonObject.addProperty("ownerUid", cb.getOwnerUid());
+		jsonObject.addProperty("characterName", cb.getCharacterName());
+		jsonObject.addProperty("creatorName", cb.getCreatorName());
+		jsonObject.addProperty("ownerName", displayName);
+		jsonObject.addProperty("screenName",screenName);
+		jsonObject.addProperty("spices", speices);
+		jsonObject.addProperty("primaryColor", primaryColor);
+		jsonObject.addProperty("secondaryColor", secondaryColor);
+		jsonObject.addProperty("birthDay", cb.getBirthDay());
+		jsonObject.addProperty("characteristic", cb.getCharacteristic());
+		jsonObject.addProperty("gender", gender);
+		jsonObject.addProperty("bio", cb.getBio());
+		jsonObject.addProperty("profileImageUrl", cb.getProfileImageUrl());
+		jsonObject.addProperty("refImageUrl", cb.getRefImageUrl());
+		jsonArray.add(jsonObject);
+		obj.add("data", jsonArray);
+
+		//serviceLogService.saveServiceLog("AFI0000014", "unknown", String.valueOf(id), 200);
+		return obj.toString();
+	}
+
+	@GetMapping("/api/getCharacterRawData/{id}")
+	public String getCharacterRawData(@PathVariable int id) {
+
+		CharacterBoard cb = characterBoardService.characterSingleInfo(id);
+
+		JsonObject obj = new JsonObject();
+		obj.addProperty("title", "캐릭터정보");
 
 		JsonArray jsonArray = new JsonArray();
 
@@ -146,12 +199,12 @@ public class BoardApiController {
 		jsonObject.addProperty("characterName", cb.getCharacterName());
 		jsonObject.addProperty("creatorName", cb.getCreatorName());
 		jsonObject.addProperty("ownerName", cb.getOwnerName());
-		jsonObject.addProperty("spices", speices);
-		jsonObject.addProperty("primaryColor", primaryColor);
-		jsonObject.addProperty("secondaryColor", secondaryColor);
+		jsonObject.addProperty("spices", cb.getSpices());
+		jsonObject.addProperty("primaryColor", cb.getPrimaryColor());
+		jsonObject.addProperty("secondaryColor", cb.getSecondaryColor());
 		jsonObject.addProperty("birthDay", cb.getBirthDay());
 		jsonObject.addProperty("characteristic", cb.getCharacteristic());
-		jsonObject.addProperty("gender", gender);
+		jsonObject.addProperty("gender", cb.getGender());
 		jsonObject.addProperty("bio", cb.getBio());
 		jsonObject.addProperty("profileImageUrl", cb.getProfileImageUrl());
 		jsonObject.addProperty("refImageUrl", cb.getRefImageUrl());
@@ -188,6 +241,18 @@ public class BoardApiController {
 		obj.add("data",jsonArray);
 
 		return obj.toString();
+	}
+
+	@PostMapping("/api/likeCharacter/{uid}/{cid}")
+	public ResponseDTO<Integer> likeCharacter(@PathVariable String uid, @PathVariable int cid){
+		characterLikeLogService.characterLike(uid,cid);
+		return new ResponseDTO<Integer>(HttpStatus.OK.value(),1);
+	}
+
+	@PostMapping("/api/likeCharacterCancel/{uid}/{cid}")
+	public ResponseDTO<Integer> likeCharacterCancel(@PathVariable String uid, @PathVariable int cid){
+		characterLikeLogService.characterLikeCancel(uid,cid);
+		return new ResponseDTO<Integer>(HttpStatus.OK.value(),1);
 	}
 }
  
