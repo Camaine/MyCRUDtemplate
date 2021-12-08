@@ -80,7 +80,7 @@ public class CharacterBoardService {
                 .orElseThrow(()->{
                     return new IllegalArgumentException("글 찾기 실패 : 아이디를 찾을 수 없습니다.(업데이트)");
                 });
-        characterBoard.setCharacterName(requestCharacterBoard.getCreatorName());
+        characterBoard.setCharacterName(requestCharacterBoard.getCharacterName());
         characterBoard.setCreatorName(requestCharacterBoard.getCreatorName());
         characterBoard.setSpices(requestCharacterBoard.getSpices());
         characterBoard.setPrimaryColor(requestCharacterBoard.getPrimaryColor());
