@@ -88,7 +88,6 @@ public class CharacterBoardService {
         characterBoard.setBirthDay(requestCharacterBoard.getBirthDay());
         characterBoard.setCharacteristic(requestCharacterBoard.getCharacteristic());
         characterBoard.setGender(requestCharacterBoard.getGender());
-        characterBoard.setBio(requestCharacterBoard.getBio());
         characterBoard.setProfileImageUrl(requestCharacterBoard.getProfileImageUrl());
         characterBoard.setRefImageUrl(requestCharacterBoard.getRefImageUrl());
         characterBoard.setContent(requestCharacterBoard.getContent());
