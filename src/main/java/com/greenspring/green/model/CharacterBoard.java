@@ -70,6 +70,9 @@ public class CharacterBoard {
     @Lob // 대용량 데이
     private String profileImage;// Summer note Library<html>섞어서 디자인이 됨.터
 
+    @Lob // 대용량 데이
+    private String content;// Summer note Library<html>섞어서 디자인이 됨.터
+
     private int count;//조회수
 
     @Column(nullable = false)

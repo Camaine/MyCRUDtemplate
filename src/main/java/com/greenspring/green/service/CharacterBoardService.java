@@ -91,6 +91,7 @@ public class CharacterBoardService {
         characterBoard.setBio(requestCharacterBoard.getBio());
         characterBoard.setProfileImageUrl(requestCharacterBoard.getProfileImageUrl());
         characterBoard.setRefImageUrl(requestCharacterBoard.getRefImageUrl());
+        characterBoard.setContent(requestCharacterBoard.getContent());
         System.out.println(characterBoard.getBio());
         System.out.println("update : " + id );
     }

@@ -176,6 +176,7 @@ public class BoardApiController {
 		jsonObject.addProperty("bio", cb.getBio());
 		jsonObject.addProperty("profileImageUrl", cb.getProfileImageUrl());
 		jsonObject.addProperty("refImageUrl", cb.getRefImageUrl());
+		jsonObject.addProperty("content", cb.getContent());
 		jsonArray.add(jsonObject);
 		obj.add("data", jsonArray);
 
@@ -208,6 +209,7 @@ public class BoardApiController {
 		jsonObject.addProperty("bio", cb.getBio());
 		jsonObject.addProperty("profileImageUrl", cb.getProfileImageUrl());
 		jsonObject.addProperty("refImageUrl", cb.getRefImageUrl());
+		jsonObject.addProperty("content", cb.getContent());
 		jsonArray.add(jsonObject);
 		obj.add("data", jsonArray);
 
